@@ -25,7 +25,7 @@ Within the **`alt_mobility_assignment`** database (under the `public` schema), t
 - `payment_id` (TEXT, **Primary Key**)  
 - `order_id` (TEXT, **Foreign Key** referencing `customer_orders.order_id`)  
 - `payment_date` (TEXT) – *Initially defined as TEXT to accommodate import format*  
-- `payment_amount` (NUMERIC/DECIMAL)  
+- `payment_amount` (NUMERIC)  
 - `payment_method` (TEXT)  
 - `payment_status` (TEXT)  
 
