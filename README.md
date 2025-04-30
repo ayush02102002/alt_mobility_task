@@ -36,4 +36,23 @@ Within the **`alt_mobility_assignment`** database (under the `public` schema), t
 - Primary Key constraints on `order_id` and `payment_id`  
 - Foreign Key constraint linking `payments.order_id` to `customer_orders.order_id`
 
+### Data Loading
+
+Data was imported into the PostgreSQL database using **pgAdmin**:
+
+1. Navigated to the desired table (e.g., `customer_orders`, `payments`) in pgAdmin.
+2. Used the **"Import/Export Data..."** feature.
+3. Configured the import settings:
+   - Selected the appropriate CSV file:  
+     - `customer_orders.csv`  
+     - `payments.csv`
+   - Set the format to **CSV**.
+   - Enabled the **"Header"** option.
+   - Confirmed the **delimiter** was set to a comma (`,`).
+4. Successfully loaded the data into the respective tables.
+
+<img src="https://github.com/user-attachments/assets/06f58d42-14d8-4b89-8682-5d50fe2ced90" width="400"/>
+<img src="https://github.com/user-attachments/assets/468da3fc-6791-42c5-9a6d-19d3823b51b7" width="400"/>
+
+
 
