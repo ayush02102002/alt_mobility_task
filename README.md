@@ -68,3 +68,17 @@ Data was imported into the PostgreSQL database using **pgAdmin**:
   - Checked for **NULL values** in essential columns.
   - Verified the **uniqueness of primary keys** to ensure data integrity.
 
+### • Data Type Conversion (Critical Date Handling)
+
+- Confirmed that although the original CSVs used the **DD-MM-YYYY** date format, the import process resulted in `order_date` and `payment_date` being stored as **text** in the format **YYYY-MM-DD**.
+- Added temporary columns with the correct `DATE` data type:
+  - `order_date_dt` in the `customer_orders` table
+  - `payment_date_dt` in the `payments` table
+- Populated the new `DATE` columns by casting the existing text columns:
+  ```sql
+  UPDATE customer_orders
+  SET order_date_dt = CAST(order_date AS DATE);
+
+  UPDATE payments
+  SET payment_date_dt = CAST(payment_date AS DATE);
+
