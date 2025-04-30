@@ -146,6 +146,7 @@ This helps evaluate the **financial performance** of the system.
 
 <img src="https://github.com/user-attachments/assets/5c196bf1-ad8e-4416-8308-96b81c5ae1d0" width="450"/>
 
+
 **🔍 SQL Query:**
 
 ```sql
@@ -165,4 +166,46 @@ ORDER BY
 Identifies growth patterns, seasonality, or declines in sales performance. Crucial for business health monitoring.
 
 <img src="https://github.com/user-attachments/assets/cd4d384c-78e0-42bb-bbc0-859982163f12" width="450"/>
+
+#### 3. Identifying Key Sales Metrics
+
+**🔍 SQL Query:**
+
+```sql
+SELECT
+    AVG(payment_amount) AS average_order_value
+FROM
+    payments
+WHERE
+    LOWER(payment_status) = 'completed';
+```
+
+Measures the average revenue generated per successful transaction. Helps understand purchasing behavior and optimize pricing/promotions.
+
+<img src="https://github.com/user-attachments/assets/ccc1b5c3-4a8f-4d07-a446-68e1904053f1" width="450"/>
+
+####🔍 SQL Query:
+
+```sql
+WITH CompletedOrderTotals AS (
+    SELECT
+        order_id,
+        SUM(payment_amount) AS total_revenue_for_order
+    FROM
+        payments
+    WHERE
+        LOWER(payment_status) = 'completed'
+    GROUP BY
+        order_id
+)
+SELECT
+    AVG(total_revenue_for_order) AS average_revenue_per_completed_order
+FROM
+    CompletedOrderTotals;
+```
+
+Slightly different perspective, focusing on the value derived per unique customer order that was successfully paid for.
+
+<img src="https://github.com/user-attachments/assets/ec39d6c0-dca7-43f2-b61d-b18f64aaf5ec" width="450">
+
 
