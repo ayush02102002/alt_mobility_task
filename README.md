@@ -232,8 +232,6 @@ Shows the trend in customer activity or demand initiation.
 
 **🎯 Objective:** Explore customer ordering behavior to identify patterns such as repeat ordering, customer segmentation based on frequency, and trends over time.
 
----
-
 #### 1. Identifying Repeat Customers
 
 **🔍 SQL Query:**
@@ -386,6 +384,7 @@ ORDER BY
 Identifies whether payment problems are worsening systemically or perhaps improving after interventions. Can reveal seasonality in failures or impacts from external events/changes.
 
 <img src="https://github.com/user-attachments/assets/56ecf7f7-eb9d-47c1-aba5-b685d9e1b566" width="450" />
+
 
 **🔍 SQL Query:**
 
