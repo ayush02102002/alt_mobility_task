@@ -106,7 +106,7 @@ This task involves looking at two main aspects:
 - **Order Fulfillment**: Understanding the lifecycle and status of orders placed.  
 - **Sales & Revenue**: Understanding the monetary value generated and its patterns over time.
 
-#### 1. 📦 Analyzing Order Fulfillment Status
+#### 1. Analyzing Order Fulfillment Status
 
 Understanding the status distribution of orders helps assess **operational efficiency**.  
 - A high number of `'pending'` or `'shipped'` (but not `'delivered'`) orders might indicate **processing bottlenecks**.  
@@ -127,4 +127,22 @@ ORDER BY
     number_of_orders DESC;
 ```
 <img src="https://github.com/user-attachments/assets/27f57bbc-9995-4a80-8269-a9ac05b2e618" width="450"/>
+
+#### 2. Analyzing Sales Revenue
+
+Provides insight into the **overall top-line revenue** based on **successful (completed)** transactions.  
+This helps evaluate the **financial performance** of the system.
+
+**🔍 SQL Query:**
+
+```sql
+SELECT
+    SUM(payment_amount) AS total_revenue
+FROM
+    payments
+WHERE
+    LOWER(payment_status) = 'completed';
+```
+
+<img src="https://github.com/user-attachments/assets/5c196bf1-ad8e-4416-8308-96b81c5ae1d0" width="450"/>
 
