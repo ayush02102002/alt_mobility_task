@@ -75,6 +75,7 @@ Data was imported into the PostgreSQL database using **pgAdmin**:
   - `order_date_dt` in the `customer_orders` table
   - `payment_date_dt` in the `payments` table
 - Populated the new `DATE` columns by casting the existing text columns:
+  
   ```sql
   UPDATE customer_orders
   SET order_date_dt = CAST(order_date AS DATE);
@@ -82,3 +83,15 @@ Data was imported into the PostgreSQL database using **pgAdmin**:
   UPDATE payments
   SET payment_date_dt = CAST(payment_date AS DATE);
 
+- Compared the old text columns with the new date columns to ensure the values matched.
+- Dropped the original text-based date columns:
+  - `order_date` from `customer_orders`
+  - `payment_date` from `payments`
+
+- Renamed the new DATE columns back to the original names:
+  ```sql
+  ALTER TABLE customer_orders
+  RENAME COLUMN order_date_dt TO order_date;
+
+  ALTER TABLE payments
+  RENAME COLUMN payment_date_dt TO payment_date;
