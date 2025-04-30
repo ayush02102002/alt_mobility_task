@@ -101,3 +101,29 @@ Data was imported into the PostgreSQL database using **pgAdmin**:
 **🎯 Objective:**  
 Analyze order status and sales data to provide insights into order fulfillment and revenue trends. Identify key metrics and trends related to order status and sales.
 
+This task involves looking at two main aspects:
+
+- **Order Fulfillment**: Understanding the lifecycle and status of orders placed.  
+- **Sales & Revenue**: Understanding the monetary value generated and its patterns over time.
+
+#### 1. 📦 Analyzing Order Fulfillment Status
+
+Understanding the status distribution of orders helps assess **operational efficiency**.  
+- A high number of `'pending'` or `'shipped'` (but not `'delivered'`) orders might indicate **processing bottlenecks**.  
+- Comparing `'delivered'` to other final states (like `'canceled'`, if present) provides insight into the **completion rate**.
+
+**🔍 SQL Query:**
+
+```sql
+SELECT
+    order_status,
+    COUNT(*) AS number_of_orders,
+    ROUND((COUNT(*) * 100.0 / SUM(COUNT(*)) OVER ()), 2) AS percentage_of_total_orders
+FROM
+    customer_orders
+GROUP BY
+    order_status
+ORDER BY
+    number_of_orders DESC;
+
+
