@@ -254,5 +254,205 @@ ORDER BY
 
 This identifies your loyal or engaged customer base. Understanding the size and purchasing frequency of this group is vital for retention strategies.
 
-![Repeat Customers](https://github.com/user-attachments/assets/f5a524cb-111f-4d08-b6a3-cfe2642f577e){ width=450 }
+<img src="https://github.com/user-attachments/assets/f5a524cb-111f-4d08-b6a3-cfe2642f577e" width="450"/>
+
+#### 2. Customer Segmentation by Order Frequency
+
+**🔍 SQL Query:**
+
+```sql
+WITH CustomerOrderCounts AS (
+    SELECT
+        customer_id,
+        COUNT(order_id) AS order_count
+    FROM
+        customer_orders
+    GROUP BY
+        customer_id
+)
+SELECT
+    order_count,
+    COUNT(customer_id) AS number_of_customers
+FROM
+    CustomerOrderCounts
+GROUP BY
+    order_count
+ORDER BY
+    order_count;
+```
+
+This provides a simple but powerful behavioral segmentation. It shows the distribution of your customer base from one-time buyers to highly frequent purchasers. This helps understand the overall loyalty structure.
+
+<img src="https://github.com/user-attachments/assets/2d9a613d-5424-413b-9ec7-e19848503ccd" width="450"/>
+
+#### 3. Analyzing Customer Activity Trends Over Time
+
+**🔍 SQL Query:**
+
+```sql
+WITH CustomerFirstOrder AS (
+    SELECT
+        customer_id,
+        MIN(order_date) AS first_order_date
+    FROM customer_orders
+    GROUP BY customer_id
+),
+MonthlyOrders AS (
+     SELECT
+        customer_id,
+        TO_CHAR(order_date, 'YYYY-MM') AS order_month,
+        order_date
+     FROM customer_orders
+)
+SELECT
+    mo.order_month,
+    COUNT(DISTINCT mo.customer_id) AS total_active_customers,
+    COUNT(DISTINCT CASE WHEN mo.order_date = cfo.first_order_date THEN mo.customer_id ELSE NULL END) AS new_customers_this_month, -- Customers whose first order was this month
+    COUNT(DISTINCT CASE WHEN mo.order_date > cfo.first_order_date THEN mo.customer_id ELSE NULL END) AS returning_customers_this_month -- Customers active this month but whose first order was earlier
+FROM MonthlyOrders mo
+JOIN CustomerFirstOrder cfo ON mo.customer_id = cfo.customer_id
+GROUP BY mo.order_month
+ORDER BY mo.order_month;
+```
+
+Tracks overall customer engagement monthly. Distinguishing between new and returning customers helps understand if growth is driven by acquisition or retention.
+
+<img src="https://github.com/user-attachments/assets/49648edf-59bf-4370-8a0e-a796ddcd7c54" width="450" />
+
+### 📝 Task 3: Payment Status Analysis
+
+**🎯 Objective:** Investigate payment status data to identify potential issues or trends related to payment success and failure.
+
+#### 1. Overall Payment Status Distribution
+
+**🔍 SQL Query:**
+
+```sql
+SELECT
+    payment_status,
+    COUNT(*) AS count_status,
+    ROUND((COUNT(*) * 100.0 / SUM(COUNT(*)) OVER ()), 2) AS percentage_status
+FROM
+    payments
+GROUP BY
+    payment_status
+ORDER BY
+    count_status DESC;
+```
+
+Provides a high-level view of payment processing health. A high failure or pending rate signals potential problems needing investigation.
+
+<img src="https://github.com/user-attachments/assets/01ae6a0d-70c2-499a-aac1-8d0d7c969032" width="450"/>
+
+#### 2. Payment Status Breakdown by Payment Method
+
+**🔍 SQL Query:**
+
+```sql
+SELECT
+    payment_method,
+    payment_status,
+    COUNT(*) AS count_status
+FROM
+    payments
+GROUP BY
+    payment_method, payment_status
+ORDER BY
+    payment_method, count_status DESC;
+```
+
+Helps pinpoint if issues are widespread or isolated to specific payment processors or types (e.g., credit cards failing more often than bank transfers).
+
+<img src="https://github.com/user-attachments/assets/24ba6e9d-8aab-40e5-af38-83ef0cb7c988" width="450" />
+
+#### 3. Trend Analysis of Payment Failures
+
+**🔍 SQL Query:**
+
+```sql
+SELECT
+    TO_CHAR(payment_date, 'YYYY-MM') AS payment_month,
+    COUNT(*) AS failed_payment_count
+FROM
+    payments
+WHERE
+    LOWER(payment_status) = 'failed'
+GROUP BY
+    payment_month
+ORDER BY
+    payment_month;
+```
+
+Identifies whether payment problems are worsening systemically or perhaps improving after interventions. Can reveal seasonality in failures or impacts from external events/changes.
+
+<img src="https://github.com/user-attachments/assets/56ecf7f7-eb9d-47c1-aba5-b685d9e1b566" width="450" />
+
+**🔍 SQL Query:**
+
+```sql
+SELECT
+    payment_month,
+    total_payments,
+    failed_payments,
+    CASE
+        WHEN total_payments = 0 THEN 0
+        ELSE ROUND((failed_payments * 100.0 / total_payments), 2)
+    END AS failure_rate_percent
+FROM (
+    SELECT
+        TO_CHAR(payment_date, 'YYYY-MM') AS payment_month,
+        COUNT(*) AS total_payments,
+        COUNT(*) FILTER (WHERE LOWER(payment_status) = 'failed') AS failed_payments
+    FROM payments
+    GROUP BY payment_month
+) AS MonthlyCounts 
+ORDER BY payment_month;
+```
+
+This gives better context than just the count, as it accounts for changes in overall transaction volume.
+
+<img src="https://github.com/user-attachments/assets/d0c574e7-3f4b-42f3-a91c-0648eeab4060" alt="image" />
+
+### 📝 Task 4: Order Details Report Query
+
+**🎯 Objective:** Create a comprehensive SQL query that provides a detailed, row-level overview of order information, payment details, and potentially some calculated row-level metrics if applicable (though the prompt primarily implies joining existing details).
+
+**🔍 SQL Query:**
+
+```sql
+SELECT
+    co.order_id,
+    co.customer_id,
+    co.order_date,         
+    co.order_amount,        
+    co.order_status,        
+    co.shipping_address,
+    p.payment_id,
+    p.payment_date,  
+    p.payment_amount AS payment_attempt_amount,
+    p.payment_method,
+    p.payment_status,
+    CASE
+        WHEN LOWER(p.payment_status) = 'completed' AND p.payment_amount = co.order_amount THEN 'Match'
+        WHEN LOWER(p.payment_status) = 'completed' AND p.payment_amount <> co.order_amount THEN 'Mismatch'
+        ELSE 'N/A'
+    END AS payment_order_amount_match_status,
+    CASE
+        WHEN p.payment_date IS NOT NULL THEN p.payment_date - co.order_date 
+        ELSE NULL
+    END AS days_between_order_and_payment
+FROM
+    customer_orders co
+LEFT JOIN
+    payments p ON co.order_id = p.order_id 
+ORDER BY
+    co.order_date DESC, 
+    co.order_id,     
+    p.payment_date;
+```
+
+<img src="https://github.com/user-attachments/assets/5d44f1b6-9cd8-43da-ac0a-ec3aaf7a98f6" width="450" />
+
+
+
 
