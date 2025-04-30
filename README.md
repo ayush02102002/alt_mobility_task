@@ -1,3 +1,10 @@
+### **Name:** Ayush Katkurwar  
+### **Phone:** +91-9022496085  
+### **Email:** ayushkatkurwar3@gmail.com  
+
+### **Alt-Mobility Task for Data Analyst Intern Role:**
+
+
 ### &#8226; Environment Setup
 
 Successfully installed the **PostgreSQL** database server and **pgAdmin**, and established a secure connection to the local PostgreSQL server using the appropriate credentials.
