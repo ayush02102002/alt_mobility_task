@@ -54,5 +54,17 @@ Data was imported into the PostgreSQL database using **pgAdmin**:
 <img src="https://github.com/user-attachments/assets/06f58d42-14d8-4b89-8682-5d50fe2ced90" width="400"/>
 <img src="https://github.com/user-attachments/assets/468da3fc-6791-42c5-9a6d-19d3823b51b7" width="400"/>
 
+### • Initial Data Inspection & Verification
 
+- Used the **pgAdmin Query Tool** to run basic SQL commands for initial data checks:
+  - Viewed sample rows using:  
+    `SELECT * FROM table_name LIMIT 10;`
+  - Checked total row counts:  
+    `SELECT COUNT(*) FROM table_name;`
+  - Investigated unique values in key categorical columns:
+    - `SELECT DISTINCT order_status FROM customer_orders;`
+    - `SELECT DISTINCT payment_status FROM payments;`
+    - `SELECT DISTINCT payment_method FROM payments;`
+  - Checked for **NULL values** in essential columns.
+  - Verified the **uniqueness of primary keys** to ensure data integrity.
 
