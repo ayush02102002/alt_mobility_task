@@ -95,3 +95,9 @@ Data was imported into the PostgreSQL database using **pgAdmin**:
 
   ALTER TABLE payments
   RENAME COLUMN payment_date_dt TO payment_date;
+
+### 📝 Task 1: Order and Sales Analysis
+
+**🎯 Objective:**  
+Analyze order status and sales data to provide insights into order fulfillment and revenue trends. Identify key metrics and trends related to order status and sales.
+
