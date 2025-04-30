@@ -130,9 +130,6 @@ ORDER BY
 
 #### 2. Analyzing Sales Revenue
 
-Provides insight into the **overall top-line revenue** based on **successful (completed)** transactions.  
-This helps evaluate the **financial performance** of the system.
-
 **🔍 SQL Query:**
 
 ```sql
@@ -144,5 +141,28 @@ WHERE
     LOWER(payment_status) = 'completed';
 ```
 
+Provides insight into the **overall top-line revenue** based on **successful (completed)** transactions.  
+This helps evaluate the **financial performance** of the system.
+
 <img src="https://github.com/user-attachments/assets/5c196bf1-ad8e-4416-8308-96b81c5ae1d0" width="450"/>
+
+**🔍 SQL Query:**
+
+```sql
+SELECT 
+    TO_CHAR(payment_date, 'YYYY-MM') AS payment_month,
+    SUM(payment_amount) AS monthly_revenue
+FROM
+    payments
+WHERE
+    LOWER(payment_status) = 'completed'
+GROUP BY
+    payment_month
+ORDER BY
+    payment_month;
+```
+
+Identifies growth patterns, seasonality, or declines in sales performance. Crucial for business health monitoring.
+
+<img src="https://github.com/user-attachments/assets/cd4d384c-78e0-42bb-bbc0-859982163f12" width="450"/>
 
