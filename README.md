@@ -215,7 +215,7 @@ Slightly different perspective, focusing on the value derived per unique custome
 
 <img src="https://github.com/user-attachments/assets/ec39d6c0-dca7-43f2-b61d-b18f64aaf5ec" width="450">
 
-### 4. Analyzing Trends Related to Order Status
+#### 4. Analyzing Trends Related to Order Status
 
 **🔍 SQL Query:**
 
