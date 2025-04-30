@@ -184,7 +184,7 @@ Measures the average revenue generated per successful transaction. Helps underst
 
 <img src="https://github.com/user-attachments/assets/ccc1b5c3-4a8f-4d07-a446-68e1904053f1" width="450"/>
 
-####🔍 SQL Query:
+**🔍 SQL Query:**
 
 ```sql
 WITH CompletedOrderTotals AS (
@@ -208,4 +208,51 @@ Slightly different perspective, focusing on the value derived per unique custome
 
 <img src="https://github.com/user-attachments/assets/ec39d6c0-dca7-43f2-b61d-b18f64aaf5ec" width="450">
 
+### 4. Analyzing Trends Related to Order Status
+
+**🔍 SQL Query:**
+
+```sql
+SELECT
+    TO_CHAR(order_date, 'YYYY-MM') AS order_placement_month,
+    COUNT(order_id) AS number_of_orders_placed
+FROM
+    customer_orders
+GROUP BY
+    order_placement_month
+ORDER BY
+    order_placement_month;
+```
+
+Shows the trend in customer activity or demand initiation. 
+
+<img src="https://github.com/user-attachments/assets/7450fc6c-a568-4a41-8343-4de49e5ef8d0" width="450"/>
+
+### 📝 Task 2: Customer Analysis
+
+**🎯 Objective:** Explore customer ordering behavior to identify patterns such as repeat ordering, customer segmentation based on frequency, and trends over time.
+
+---
+
+#### 1. Identifying Repeat Customers
+
+**🔍 SQL Query:**
+
+```sql
+SELECT
+    customer_id,
+    COUNT(order_id) AS number_of_orders
+FROM
+    customer_orders
+GROUP BY
+    customer_id 
+HAVING
+    COUNT(order_id) > 1
+ORDER BY
+    number_of_orders DESC;
+```
+
+This identifies your loyal or engaged customer base. Understanding the size and purchasing frequency of this group is vital for retention strategies.
+
+![Repeat Customers](https://github.com/user-attachments/assets/f5a524cb-111f-4d08-b6a3-cfe2642f577e){ width=450 }
 
