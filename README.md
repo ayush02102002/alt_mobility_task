@@ -19,7 +19,7 @@ Within the **`alt_mobility_assignment`** database (under the `public` schema), t
 - `shipping_address` (TEXT)  
 - `order_status` (TEXT)
   
-<img src="https://github.com/user-attachments/assets/e519f93f-514d-4227-97f2-b641f537f01c" width="500"/>
+<img src="https://github.com/user-attachments/assets/e519f93f-514d-4227-97f2-b641f537f01c" width="300"/>
 
 
 
