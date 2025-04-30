@@ -125,5 +125,6 @@ GROUP BY
     order_status
 ORDER BY
     number_of_orders DESC;
-
+```
+<img src="https://github.com/user-attachments/assets/27f57bbc-9995-4a80-8269-a9ac05b2e618" width="450"/>
 
